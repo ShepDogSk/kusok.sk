@@ -5,6 +5,8 @@ import { eq, and } from "drizzle-orm";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Produkty",
   description: "Ručne šité kožené výrobky — peňaženky, opasky, puzdrá a ďalšie. Prehliadnite si náš katalóg.",
