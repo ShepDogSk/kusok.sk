@@ -3,6 +3,8 @@ import { db } from "@/db";
 import { products } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const publishedProducts = await db
     .select({ slug: products.slug, updatedAt: products.updatedAt })
@@ -38,4 +40,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...productUrls,
   ];
 }
-
