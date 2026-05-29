@@ -4,6 +4,8 @@ import { products } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import ProductCard from "@/components/ProductCard";
 
+export const dynamic = "force-dynamic";
+
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
