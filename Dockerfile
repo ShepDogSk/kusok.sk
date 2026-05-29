@@ -31,6 +31,10 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Copy native libsql bindings (not traced by Next.js standalone)
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/@libsql /app/node_modules/@libsql
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/libsql /app/node_modules/libsql
+
 # Create data and uploads directories
 RUN mkdir -p data public/uploads && chown -R nextjs:nodejs data public/uploads
 
