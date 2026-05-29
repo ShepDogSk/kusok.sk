@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kusok.sk"),
   title: {
     default: "Kúsok kože, kus duše | kusok.sk",
     template: "%s | kusok.sk",
@@ -13,6 +14,18 @@ export const metadata: Metadata = {
     siteName: "kusok.sk",
     locale: "sk_SK",
     type: "website",
+    url: "https://kusok.sk",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -31,3 +44,4 @@ export default function RootLayout({
     </html>
   );
 }
+
