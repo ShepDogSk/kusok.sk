@@ -4,6 +4,20 @@ import { products } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import ProductCard from "@/components/ProductCard";
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "kusok.sk",
+  url: "https://kusok.sk",
+  description: "Ručne šité kožené výrobky — peňaženky, opasky, puzdrá. Každý kus je originál.",
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "info@kusok.sk",
+    contactType: "customer service",
+  },
+  sameAs: ["https://instagram.com/kusok.sk"],
+};
+
 export default async function Home() {
   const featuredProducts = await db
     .select()
@@ -14,6 +28,11 @@ export default async function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+
       {/* Hero */}
       <section className="relative bg-leather-950 text-white overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-leather-950 via-leather-900 to-leather-800 opacity-90" />
@@ -87,3 +106,4 @@ export default async function Home() {
     </>
   );
 }
+
