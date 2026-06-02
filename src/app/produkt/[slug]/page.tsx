@@ -23,24 +23,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!product) return { title: "Produkt nenájdený" };
 
+  const desc = product.description ?? `${product.name} — ručne šitý kožený výrobok od kusok.sk`;
+  const canonicalUrl = `https://kusok.sk/produkt/${slug}`;
+
   return {
     title: product.name,
-    description: product.description ?? `${product.name} — ručne šitý kožený výrobok od kusok.sk`,
+    description: desc,
     openGraph: {
       title: product.name,
-      description: product.description ?? undefined,
+      description: desc,
       type: "website",
-      url: `https://kusok.sk/produkt/${slug}`,
-      images: product.images?.[0] ? [{ url: product.images[0] }] : undefined,
+      url: canonicalUrl,
+      images: product.images?.[0]
+        ? [{ url: product.images[0], alt: product.name }]
+        : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: product.name,
-      description: product.description ?? `${product.name} — ručne šitý kožený výrobok od kusok.sk`,
+      description: desc,
       images: product.images?.[0] ? [product.images[0]] : undefined,
     },
     alternates: {
-      canonical: `/produkt/${slug}`,
+      canonical: canonicalUrl,
     },
   };
 }
@@ -58,13 +63,15 @@ export default async function ProduktPage({ params }: PageProps) {
     notFound();
   }
 
-  const jsonLd = {
+  const productUrl = `https://kusok.sk/produkt/${product.slug}`;
+
+  const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     description: product.description ?? undefined,
     image: product.images ?? [],
-    url: `https://kusok.sk/produkt/${product.slug}`,
+    url: productUrl,
     brand: {
       "@type": "Brand",
       name: "kusok.sk",
@@ -75,7 +82,7 @@ export default async function ProduktPage({ params }: PageProps) {
         price: product.price,
         priceCurrency: product.currency ?? "EUR",
         availability: "https://schema.org/InStock",
-        url: `https://kusok.sk/produkt/${product.slug}`,
+        url: productUrl,
         seller: {
           "@type": "Organization",
           name: "kusok.sk",
@@ -85,11 +92,40 @@ export default async function ProduktPage({ params }: PageProps) {
     }),
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Domov",
+        item: "https://kusok.sk",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Produkty",
+        item: "https://kusok.sk/produkty",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.name,
+        item: productUrl,
+      },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Breadcrumbs */}

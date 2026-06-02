@@ -15,9 +15,26 @@ export const metadata: Metadata = {
     locale: "sk_SK",
     type: "website",
     url: "https://kusok.sk",
+    title: "Kúsok kože, kus duše | kusok.sk",
+    description: "Ručne šité kožené výrobky — peňaženky, opasky, puzdrá. Každý kus je originál.",
+    // Place a 1200×630 social sharing image at /public/og-image.jpg
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "kusok.sk — ručne šité kožené výrobky",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    title: "Kúsok kože, kus duše | kusok.sk",
+    description: "Ručne šité kožené výrobky — peňaženky, opasky, puzdrá. Každý kus je originál.",
+    images: ["/og-image.jpg"],
+  },
+  alternates: {
+    canonical: "https://kusok.sk",
   },
   robots: {
     index: true,

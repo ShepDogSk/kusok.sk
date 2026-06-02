@@ -1,16 +1,31 @@
 import type { Metadata } from "next";
 import { db } from "@/db";
 import { products } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Produkty",
-  description: "Ručne šité kožené výrobky — peňaženky, opasky, puzdrá a ďalšie. Prehliadnite si náš katalóg.",
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ kategoria?: string }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  // Category filter pages (?kategoria=X) are not unique content — canonical back to /produkty
+  return {
+    title: "Produkty — ručne šité kožené výrobky",
+    description:
+      "Prehliadnite si náš katalóg ručne šitých kožených výrobkov — peňaženky, opasky, puzdrá a ďalšie. Každý kúsok je originál.",
+    alternates: {
+      canonical: "https://kusok.sk/produkty",
+    },
+    ...(params.kategoria && {
+      robots: { index: false, follow: true },
+    }),
+  };
+}
 
 export default async function ProduktyPage({
   searchParams,
